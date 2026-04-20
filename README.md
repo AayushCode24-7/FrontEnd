@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Netflix Clone (Capstone) 🎥
 
 A "boiled down" version of a popular streaming platform, developed as part of the Web Development Capstone Course. This project demonstrates a fully integrated full-stack application featuring a dynamic movie discovery interface and a personalized user experience.
@@ -16,19 +15,14 @@ A "boiled down" version of a popular streaming platform, developed as part of th
 
 ## 🛠️ Tech Stack
 * **Frontend:** HTML5, CSS3, JavaScript
-* **Backend:** [Flask.py]
+* **Backend:** Flask, Json
 * **Database:**[]
 
 ## 🌐 Architecture & Flow
-```mermaid
-=======
+
 <h1><b>Project Title: Netflix Clone (Capstone)🎥 </b></h1>
 
 Project Overview: This project is a "boiled down" version of a popular streaming platform, developed as part of the Web Development Capstone Course. Our goal is to demonstrate a fully integrated full-stack application featuring a dynamic movie discovery interface and a personalized user experience.
-
-<h1><b>👥 Contributors</b></h1>
-Aayush - Aditya <br>
-[AayushCode24-7] - [adityasyantaxerror]
 
 <h1><b>🚀 Features (Core Requirements)</b></h1>
 
@@ -51,7 +45,6 @@ Frontend: HTML5, CSS3, JavaScript
 <h1>Flow Chart</h1><br>
 
 ```mermaid 
->>>>>>> 0e7631260cf33ca4c4a1951da3d850a45eef141c
 graph LR
     A[User UI] -- Search Query --> B(Backend API)
     B -- Query Request --> C[(Database)]
@@ -59,7 +52,6 @@ graph LR
     B -- JSON Response --> A
     A -- CRUD: Add to List --> B
     B -- Save Data --> C
-<<<<<<< HEAD
     C -- Confirmation --> B
     B -- Update UI --> A
 ```
@@ -74,9 +66,8 @@ graph LR
 │   ├── index.html
 │   ├── styles.css
 │   └── script.js
+├── Storage/
+|   ├── Thumbnail
 ├── README.md
 └── .gitignore
 ```
-=======
-```
->>>>>>> 0e7631260cf33ca4c4a1951da3d850a45eef141c
