@@ -28,11 +28,11 @@ body {
     border-right: 1px solid #333;
 }
 
-.sidebar h2 { color: #e50914; margin-bottom: 20px; }
+.sidebar h2 { color: #e50909; margin-bottom: 20px; }
 .sidebar ul { list-style: none; }
 .sidebar li { padding: 15px 0; }
 .sidebar a { color: white; text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; }
-.sidebar a:hover { color: #e50914; transition: color 0.3s ease; }
+.sidebar a:hover { color: #ff0000; transition: color 0.3s ease; text-decoration: underline; }
 
 /* Icon spacing */
 .sidebar i {
@@ -59,12 +59,12 @@ body {
     overflow: hidden;
     transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 8px rgb(255, 255, 255);
 }
 
 .card:hover {
     transform: scale(1.08);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+    box-shadow: 0 8px 16px rgb(240, 7, 7);
 }
 
 .card img {
