@@ -4,7 +4,7 @@ A "boiled down" version of a popular streaming platform, developed as part of th
 
 ## 👥 Contributors
 - **Aayush** - [AayushCode24-7](https://github.com/AayushCode24-7)
-- **Aditya** - [adityasyantaxerror](https://github.com/adityasyantaxerror)
+- **Aditya** - [adityasyntaxerror](https://github.com/adityasyntaxerror)
 
 ## 🚀 Features
 - **CRUD Operations:** Create, view, update, and delete items in your personal "Watchlist".
