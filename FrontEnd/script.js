@@ -1,31 +1,48 @@
-const URL = "http://127.0.0.1:5001/products";
+const URL = "http://127.0.0.1:5001";
 
-// Fetching data from the Backend
 async function getProducts() {
     try {
-        const response = await fetch(URL);
+        const response = await fetch(`${URL}/products`);
         const data = await response.json();
         renderUI(data.products);
     } catch (error) {
-        console.log("Error: Backend is not running on port 5001");
+        console.error("Error connecting to backend:", error);
     }
 }
 
-// Rendering the UI using the data
+async function addToWatchlist(movie) {
+    try {
+        const response = await fetch(`${URL}/watchlist`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(movie)
+        });
+        const result = await response.json();
+        alert(result.message);
+    } catch (error) {
+        console.error("Failed to add:", error);
+    }
+}
+
 function renderUI(arr) {
     const root = document.getElementById("root");
-    root.innerHTML = ""; // Clear old data
+    root.innerHTML = "";
     
     arr.forEach((item) => {
         const card = document.createElement("div");
-        card.style.border = "1px solid black"; // Simple styling from notes
+        card.className = "card";
         card.innerHTML = `
-            <img src="${item.thumbnail}" width="200px" />
-            <h3>${item.title}</h3>
-            <p>Rating: ${item.rating}</p>
+            <img src="${item.thumbnail}" />
+            <div class="card-info">
+                <h3>${item.title}</h3>
+                <p>Rating: ${item.rating}</p>
+                <button id="btn-${item.id}">+ Add to Watchlist</button>
+            </div>
         `;
         root.appendChild(card);
+        document.getElementById(`btn-${item.id}`).addEventListener("click", () => addToWatchlist(item));
     });
 }
 
+// Initial Call
 getProducts();
