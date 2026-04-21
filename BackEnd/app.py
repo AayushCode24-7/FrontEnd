@@ -20,9 +20,9 @@ all_movies = [
 my_watchlist = []
 
 # READ: Get all movies (GET)
-@app.route("/products", methods=["GET"])
+@app.route("/movies", methods=["GET"])
 def get_movies():
-    return jsonify({"products": all_movies})
+    return jsonify({"movies": all_movies})
 
 
 # CREATE: Add to watchlist (POST)
