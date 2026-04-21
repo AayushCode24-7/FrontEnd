@@ -14,14 +14,14 @@
         <nav class="sidebar">
             <h2>Netflix</h2>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Movies</a></li>
-                <li><a href="#">Watchlist</a></li>
+                <li><a href="#" onclick="showHome(); return false;">Home</a></li>
+                <li><a href="#" onclick="showHome(); return false;">Movies</a></li>
+                <li><a href="#" onclick="showWatchlist(); return false;">Watchlist</a></li>
             </ul>
         </nav>
         
-        <main id="root">
-            </main>
+        <main id="root"></main>
+        <main id="watchlist-root" style="display: none;"></main>
     </div>
 
     <script src="script.js"></script>

@@ -1,4 +1,4 @@
-const URL = "http://127.0.0.1:5001";
+const URL = "http://127.0.0.1:5002";
 
 async function getProducts() {
     try {
@@ -19,9 +19,32 @@ async function addToWatchlist(movie) {
         });
         const result = await response.json();
         alert(result.message);
+        await getWatchlist();
     } catch (error) {
         console.error("Failed to add:", error);
     }
+}
+
+async function getWatchlist() {
+    try {
+        const response = await fetch(`${URL}/watchlist`);
+        const data = await response.json();
+        renderWatchlist(data.watchlist);
+    } catch (error) {
+        console.error("Error fetching watchlist:", error);
+    }
+}
+
+function showHome() {
+    document.getElementById("root").style.display = "block";
+    document.getElementById("watchlist-root").style.display = "none";
+    getProducts();
+}
+
+function showWatchlist() {
+    document.getElementById("root").style.display = "none";
+    document.getElementById("watchlist-root").style.display = "block";
+    getWatchlist();
 }
 
 function renderUI(arr) {
