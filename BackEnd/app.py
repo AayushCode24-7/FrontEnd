@@ -9,12 +9,12 @@ all_movies = [
     {"id": 1, "title": "Inception", "thumbnail": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQovCe0H45fWwAtV31ajOdXRPTxSsMQgPIQ3lcZX_mAW0jXV3kH", "rating": 4.8},
     {"id": 2, "title": "Interstellar", "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9oW0XQlu1lo1G_49M-YwGzKR6rUg-CtflZj07HfbT8d2GwKWg", "rating": 4.9},
     {"id": 3, "title": "The Dark Knight", "thumbnail": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQkUywIUXDjHSQJIaNHYVs08osgBpF5Ot-xmB_omyEZeeRP9Xug", "rating": 4.7},
-    {"id": 4, "title": "One Peice", "thumbnail": "/Users/aayushjindal/Documents/Web-Dev-Project/Storage/MV5BMTNjNGU4NTUtYmVjMy00YjRiLTkxMWUtNzZkMDNiYjZhNmViXkEyXkFqcGc@._V1_.jpg", "rating": 4.9},
+    {"id": 4, "title": "The Matrix", "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5DoFtShSmClflZ0RzBj9JBMweU5IUVBCeEbbLeV2XPlCnTKNi", "rating": 4.6},
+    {"id": 5, "title": "The Lord of the Rings: The Fellowship of the Ring", "thumbnail": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSYHuKZScdd6RHhzh-IDKga3wfTTd9cPEe1Y2JUI5gjvaxgJc3O", "rating": 4.8},
 ]
 my_watchlist = []
 
 # READ: Get all movies (GET)
-# NOTE: The path is now /products to match your frontend fetch()
 @app.route("/products", methods=["GET"])
 def get_movies():
     return jsonify({"products": all_movies})

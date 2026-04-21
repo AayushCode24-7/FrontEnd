@@ -93,12 +93,12 @@ body {
     overflow: hidden;
     transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 8px rgb(255, 255, 255);
 }
 
 .card:hover {
     transform: scale(1.08);
-    box-shadow: 0 8px 16px rgba(229, 9, 20, 0.5);
+    box-shadow: 0 8px 16px rgb(255, 5, 17);
 }
 
 .card img {
