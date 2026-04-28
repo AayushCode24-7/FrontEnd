@@ -1,43 +1,74 @@
+import sqlite3
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
 
-# Database
-all_movies = [
-    {"id": 1, "title": "Inception", "thumbnail": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQovCe0H45fWwAtV31ajOdXRPTxSsMQgPIQ3lcZX_mAW0jXV3kH", "rating": 4.8},
-    {"id": 2, "title": "Interstellar", "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9oW0XQlu1lo1G_49M-YwGzKR6rUg-CtflZj07HfbT8d2GwKWg", "rating": 4.9},
-    {"id": 3, "title": "The Dark Knight", "thumbnail": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQkUywIUXDjHSQJIaNHYVs08osgBpF5Ot-xmB_omyEZeeRP9Xug", "rating": 4.7},
-    {"id": 4, "title": "The Matrix", "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5DoFtShSmClflZ0RzBj9JBMweU5IUVBCeEbbLeV2XPlCnTKNi", "rating": 4.6},
-    {"id": 5, "title": "The Lord of the Rings: The Fellowship of the Ring", "thumbnail": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSYHuKZScdd6RHhzh-IDKga3wfTTd9cPEe1Y2JUI5gjvaxgJc3O", "rating": 4.8},
-    {"id": 6, "title": "Dhurandhar", "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAHn3l83WxU4xzIgbGq0WqTG4GJbOW7flby7Y8PEh2ueVAbYO_", "rating": 4.7 },
-    {"id": 7, "title": "RRR", "thumbnail": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRx0wTDoneV8OuMM6hNfD7vfibB_jt6FcCL-u8H2DljlRXgGCoG", "rating": 4.6 },
-    {"id": 8, "title": "Jawan", "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA8fxJgOk6Q4UGjmsa1q3CQ1Q05Lt0Dn1leAl6_KexCEjqJAe6", "rating": 4.5 },
-    {"id": 9, "title": "Mirzapur", "thumbnail": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQyP8kYiwrOhEHB8b_r1hDBnw7Boeeget8D8s0qq3Zm8Jx8UZf7", "rating": 4.8 },
-    {"id": 10, "title": "Sacred Games", "thumbnail": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTyI-N4Sy-tDcLM93Z0049o6nuIi_afh8T2K5MyVRJ5FxY6Aj4a", "rating": 4.7 },
-]
-my_watchlist = []
+# Helper function to get DB connection
+def get_db():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row  # Returns dict-like objects
+    return conn
 
-# READ: Get all movies (GET)
+# Create tables if they don't exist
+def init_db():
+    conn = get_db()
+    cursor = conn.cursor()
+    
+    # 1. Create tables
+    cursor.execute('''CREATE TABLE IF NOT EXISTS movies 
+                      (id INTEGER PRIMARY KEY, title TEXT, thumbnail TEXT, rating REAL)''')
+    cursor.execute('''CREATE TABLE IF NOT EXISTS watchlist 
+                      (id INTEGER PRIMARY KEY, title TEXT UNIQUE, thumbnail TEXT, rating REAL)''')
+    
+    # 2. Check if movies table is empty
+    cursor.execute("SELECT count(*) FROM movies")
+    if cursor.fetchone()[0] == 0:
+        # Define your list of movies here (grab this from your old app.py)
+        movie_list = [
+            ("Inception", "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQovCe0H45fWwAtV31ajOdXRPTxSsMQgPIQ3lcZX_mAW0jXV3kH", 4.8),
+            ("Interstellar", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9oW0XQlu1lo1G_49M-YwGzKR6rUg-CtflZj07HfbT8d2GwKWg", 4.9),
+            ("The Dark Knight", "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQkUywIUXDjHSQJIaNHYVs08osgBpF5Ot-xmB_omyEZeeRP9Xug", 4.7),
+            ("The Matrix", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5DoFtShSmClflZ0RzBj9JBMweU5IUVBCeEbbLeV2XPlCnTKNi", 4.6),
+            ("RRR", "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRx0wTDoneV8OuMM6hNfD7vfibB_jt6FcCL-u8H2DljlRXgGCoG", 4.6)
+        ]
+        
+        # 3. Bulk Insert
+        cursor.executemany("INSERT INTO movies (title, thumbnail, rating) VALUES (?, ?, ?)", movie_list)
+        conn.commit()
+        print("Database seeded successfully!")
+    
+    conn.close()
+
+init_db()
+
 @app.route("/movies", methods=["GET"])
 def get_movies():
-    return jsonify({"movies": all_movies})
+    conn = get_db()
+    movies = conn.execute("SELECT * FROM movies").fetchall()
+    conn.close()
+    return jsonify({"movies": [dict(m) for m in movies]})
 
-
-# CREATE: Add to watchlist (POST)
 @app.route("/watchlist", methods=["POST"])
 def add_to_list():
     data = request.json
-    my_watchlist.append(data)
-    print(f"Watchlist updated: {my_watchlist}")
-    return jsonify({"message": f"{data['title']} Added to watchlist!"}), 201
+    try:
+        conn = get_db()
+        conn.execute("INSERT INTO watchlist (title, thumbnail, rating) VALUES (?, ?, ?)",
+                     (data['title'], data['thumbnail'], data['rating']))
+        conn.commit()
+        conn.close()
+        return jsonify({"message": f"{data['title']} added!"}), 201
+    except sqlite3.IntegrityError:
+        return jsonify({"message": "Movie already in watchlist"}), 400
 
-# READ: Get all watchlist items (GET)
 @app.route("/watchlist", methods=["GET"])
 def get_watchlist():
-    return jsonify({"watchlist": my_watchlist})
+    conn = get_db()
+    watchlist = conn.execute("SELECT * FROM watchlist").fetchall()
+    conn.close()
+    return jsonify({"watchlist": [dict(w) for w in watchlist]})
 
-# Server Port(5002)
 if __name__ == "__main__":
-    app.run(port=5002, debug=True)#
+    app.run(port=5003, debug=True)
